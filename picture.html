@@ -5,62 +5,47 @@
             <title>S V G</title>
         </head>
         <body>
-        	<div id="width">
-        		Width 5
+        	<div id="color">
+        		Color:
+        		black
         	</div>
-            <svg width="95%"
+        	<div id="width">
+        		Width:
+        		5
+        	</div>
+            <svg width="80%"
        			height="100vh"
 				xmlns="http://www.w3.org/2000/svg"
 				id="svg">
 
 			</svg>
-							<script>
-							 	let width = 5;
-							 	let widthBlock = document.querySelector('#width');
-							 	widthBlock.addEventListener("click", widthEdit)
-							 	function widthEdit(){
-							 		width = prompt("Edit width:");
-							 		widthBlock.innerHTML = "Width ${width}"
-							 	};
-								let svg = document.querySelector(`#svg`);
-								let coursor = {
-									StartX: undefined,
-									StartY: undefined,
-									EndX: undefined,
-									EndY: undefined, 
-								};
-								svg.addEventListener("click", begin); 
-								function begin(){
-									svg.addEventListener("mousemove", draw);
-									svg.removeEventListener("click", begin);
-									svg.addEventListener("click", end);
-								};
-								function end(){
-									svg.removeEventListener("mousemove", draw)
-									svg.removeEventListener("click", end);
-									svg.addEventListener("click", begin);
-									coursor.StartX = undefined;
-									coursor.StartY = undefined;
-									setTimeout(function(){
-										coursor.EndX = undefined;
-										coursor.EndY = undefined; 
-									}, 0.1)
-								};
-								function draw(event){
-									coursor.StartX = event.clientX;
-									coursor.StartY = event.clientY;
-									setTimeout(function(){
-										coursor.EndX = event.clientX;
-										coursor.EndY = event.clientY; 
-									}, 0.1)
-									svg.innerHTML = svg.innerHTML + `<path d="M ${coursor.StartX} ${coursor.StartY} L ${coursor.EndX} ${coursor.EndY}" stroke="black" stroke-width="${width}" fill="black" stroke-linecap="round"/>`
-								};
-							//<circle cx="${event.clientX}" cy="${event.clientY}" r="${width}" fill="black"/>
-							</script>
-							<style>
-								#svg{
-									 border-style: solid;
-								}
-							</style>
+			<style>
+				#color{
+					border-style: solid;
+					border-width: 2px;
+					color: gray;
+					background-color: black;
+					width: 50px;
+					float: right;
+					padding: 5px;
+					margin: 5px;
+				}
+				#width{
+					border-style: solid;
+					border-width: 2px;
+					color: gray;
+					background-color: black;
+					width: 50px;
+					float: right;
+					padding: 5px;
+					margin: 5px;
+				}
+				#svg{
+					border-style: solid;
+					border-width: 2px;
+				}
+			</style>
+			<script src="javascript/script-svg.js"></script>
+			<script src="javascript/operator.js"></script>
         </body>
     </html>
