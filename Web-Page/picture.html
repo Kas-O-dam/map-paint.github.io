@@ -2,7 +2,7 @@
     <html>
         <head>
             <meta charset="UTF-8">
-            <title>S V G</title>
+            <title>WebPaint</title>
         </head>
         <body>
         	<div id="color">
@@ -13,12 +13,14 @@
         		Width:
         		5
         	</div>
-            <svg width="80%"
+            <!--<svg width="80%"
        			height="100vh"
 				xmlns="http://www.w3.org/2000/svg"
 				id="svg">
 
-			</svg>
+			</svg>-->
+			<!--<canvas id="canvas" height="500px" width="1000px">Your browser don't support canvas</canvas>-->
+			<div id="blockDraw"></div>
 			<style>
 				#color{
 					border-style: solid;
@@ -40,12 +42,13 @@
 					padding: 5px;
 					margin: 5px;
 				}
-				#svg{
+				#blockDraw{
 					border-style: solid;
 					border-width: 2px;
+					width: 1000px;
+					height: 500px;
 				}
 			</style>
-			<script src="javascript/script-svg.js"></script>
-			<script src="javascript/operator.js"></script>
-        </body>
+			<script src="operator.js"></script>
+		</body>
     </html>
