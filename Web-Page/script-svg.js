@@ -4,7 +4,7 @@ function svg(){
 	widthBlock.addEventListener("click", widthEdit)
 	function widthEdit(){
 		width = prompt("Edit width:");
-		widthBlock.innerHTML = `Width: ${width}`
+		widthBlock.innerHTML = width
 	};
 	let color = "black";
 	let colorBlock = document.querySelector('#color');
@@ -23,7 +23,7 @@ function svg(){
 		green
 	else hexadecimal or rgb/rgba coed
 	Edit color:`);
-		colorBlock.innerHTML = `Color: ${color}`
+		colorBlock.innerHTML = color
 	};
 	let svg = document.querySelector(`#svg`);
 	let coursor = {

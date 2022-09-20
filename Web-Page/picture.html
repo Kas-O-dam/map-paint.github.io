@@ -5,16 +5,14 @@
             <title>WebPaint</title>
         </head>
         <body>
-        	<div id="color">
-        		Color:
-        		black
-        	</div>
-        	<div id="width">
-        		Width:
-        		5
+        	<div id="container">
+	        	<div class="menu" id="color">black</div>
+	        	<div class="menu" id="width">5</div>
+	        	<div class="menu" id="styleDraw">canvas</div>
+	        	<div class="menu" id="size">1280*720</div>
         	</div>
             <!--<svg width="80%"
-       			height="100vh"
+       			height="500px"
 				xmlns="http://www.w3.org/2000/svg"
 				id="svg">
 
@@ -22,31 +20,31 @@
 			<!--<canvas id="canvas" height="500px" width="1000px">Your browser don't support canvas</canvas>-->
 			<div id="blockDraw"></div>
 			<style>
-				#color{
-					border-style: solid;
-					border-width: 2px;
-					color: gray;
-					background-color: black;
-					width: 50px;
-					float: right;
-					padding: 5px;
+				div{
+					padding: 2.5px;
+					margin: 2.5px;
+					background-color: gray;
+					color: whitesmoke;
+				}
+				.menu{
 					margin: 5px;
 				}
-				#width{
-					border-style: solid;
-					border-width: 2px;
-					color: gray;
-					background-color: black;
-					width: 50px;
+				#container{
 					float: right;
-					padding: 5px;
-					margin: 5px;
+					background-color: darkgray;
 				}
 				#blockDraw{
-					border-style: solid;
-					border-width: 2px;
+					background-color: rgba(0, 0, 0, 0.0);
 					width: 1000px;
 					height: 500px;
+				}
+				#canvas{
+					border-style: solid;
+					background-image: url(images/opacity-background.png);
+				}
+				#svg{
+					border-style: solid;
+					background-image: url(images/opacity-background.png);
 				}
 			</style>
 			<script src="operator.js"></script>
