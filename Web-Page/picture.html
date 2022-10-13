@@ -3,13 +3,55 @@
         <head>
             <meta charset="UTF-8">
             <title>WebPaint</title>
+            <link rel="stylesheet" type="text/css" href="styles/style.css">
+            <link rel="stylesheet" type="text/css" href="styles/colors.css">
         </head>
         <body>
+        	<menu>
+        		<div id="export">Export</div>
+        		<div id="device">PC</div>
+        		<div id="styleDraw">Canvas</div>
+<!--         		<div id="size">1280*720</div>
+ -->        	</menu>
+        	<h3>press 'Enter' for save</h3>
         	<div id="container">
-	        	<div class="menu" id="color">black</div>
-	        	<div class="menu" id="width">5</div>
-	        	<div class="menu" id="styleDraw">canvas</div>
-	        	<div class="menu" id="size">1280*720</div>
+        		<div><input id="widthInput" type="range" placeholder="width" name="paintWidth"/><span class="menu" id="width">?</span></div>
+<!-- 	        	<div><input id="styleDraw" type="textarea" placeholder="canvas" name="canvas" class="menu" id="styleDraw"></div>
+ -->	        	<div><input type="textarea" placeholder="1280*720" name="size" class="menu" id="size"></div>
+
+		        <div id="color_container">
+		        	<div>
+			        	<div class="color" id="lightred"></div>
+		        		<div class="color" id="red"></div>
+		        		<div class="color" id="darkred"></div>
+					</div>
+					<div>
+						<div class="color" id="lightorange"></div>
+		        		<div class="color" id="orange"></div>
+		        		<div class="color" id="brown"></div>
+					</div>
+					<div>
+		        		<div class="color" id="lightyellow"></div>
+		        		<div class="color" id="yellow"></div>
+		        		<div class="color" id="darkyellow"></div>
+					</div>
+					<div>
+		        		<div class="color" id="lightgreen"></div>
+		        		<div class="color" id="green"></div>
+		        		<div class="color" id="darkgreen"></div>
+					</div>
+					<div>
+						<div class="color" id="lightblue"></div>
+		        		<div class="color" id="blue"></div>
+		        		<div class="color" id="darkblue"></div>
+					</div>
+					<div>
+		        		<div class="color" id="white"></div>
+		        		<div class="color" id="lightgray"></div>
+		        		<div class="color" id="darkgray"></div>
+		        		<div class="color" id="black"></div>
+	    			</div>
+	        	</div>
         	</div>
             <!--<svg width="80%"
        			height="500px"
@@ -19,34 +61,6 @@
 			</svg>-->
 			<!--<canvas id="canvas" height="500px" width="1000px">Your browser don't support canvas</canvas>-->
 			<div id="blockDraw"></div>
-			<style>
-				div{
-					padding: 2.5px;
-					margin: 2.5px;
-					background-color: gray;
-					color: whitesmoke;
-				}
-				.menu{
-					margin: 5px;
-				}
-				#container{
-					float: right;
-					background-color: darkgray;
-				}
-				#blockDraw{
-					background-color: rgba(0, 0, 0, 0.0);
-					width: 1000px;
-					height: 500px;
-				}
-				#canvas{
-					border-style: solid;
-					background-image: url(images/opacity-background.png);
-				}
-				#svg{
-					border-style: solid;
-					background-image: url(images/opacity-background.png);
-				}
-			</style>
 			<script src="operator.js"></script>
 		</body>
     </html>

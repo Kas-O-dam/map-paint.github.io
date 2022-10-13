@@ -1,4 +1,4 @@
-function svg(){
+export function svg(){
 	let width = 5;
 	let widthBlock = document.querySelector('#width');
 	widthBlock.addEventListener("click", widthEdit)
@@ -11,16 +11,16 @@ function svg(){
 	colorBlock.addEventListener("click", colorEdit)
 	function colorEdit(){
 		color = prompt(`Examples 
-		red 
-		orange
-		yellow
-		pink
-		magenta
-		blue
-		black
-		white
-		brown
-		green
+		◉ red 
+		◉ orange
+		◉ yellow
+		◉ pink
+		◉ magenta
+		◉ blue
+		◉ black
+		◉ white
+		◉ brown
+		◉ green
 	else hexadecimal or rgb/rgba coed
 	Edit color:`);
 		colorBlock.innerHTML = color
@@ -32,7 +32,8 @@ function svg(){
 		EndX: undefined,
 		EndY: undefined, 
 	};
-	svg.addEventListener("click", begin); 
+	svg.addEventListener("click", begin);
+
 	function begin(){
 		svg.addEventListener("mousemove", draw);
 		svg.removeEventListener("click", begin);
@@ -48,15 +49,15 @@ function svg(){
 			coursor.EndX = undefined;
 			coursor.EndY = undefined; 
 		}, 0.1)
-	};
+	}; 
+
 	function draw(event){
-		coursor.StartX = event.pageX - 10;
-		coursor.StartY = event.pageY - 15;
+		coursor.StartX = event.pageX - picture.offsetLeft;
+		coursor.StartY = event.pageY - picture.offsetTop;
 		setTimeout(function(){
-			coursor.EndX = event.pageX - 10;
-			coursor.EndY = event.pageY - 15; 
+			coursor.EndX = event.pageX - picture.offsetLeft
+			coursor.EndY = event.pageY - picture.offsetTop; 
 		}, 0.1)
 		svg.innerHTML = svg.innerHTML + `<path d="M ${coursor.StartX} ${coursor.StartY} L ${coursor.EndX} ${coursor.EndY}" stroke="${color}" stroke-width="${width}" fill="black" stroke-linecap="round"/>`
 	};
 };
-export default '*';
