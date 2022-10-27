@@ -1,58 +1,70 @@
+menu{
+	display: flex;
+}
+
 .color{
-					border-style: solid;
-					border-radius: 5px;
-					border-width: 2px;
-					border-color: dimgray;
+	border-style: solid;
+	border-radius: 5px;
+	border-width: 2px;
+	border-color: dimgray;
 
-					display: inline-block;
+	display: inline-block;
 
-					width: 10px;
-					height: 10px;
+	width: 10px;
+	height: 10px;
 
-					margin: -2px;
-				}
+	margin: -2px;
+}
 
-				.color:hover{
-					border-color: whitesmoke;
-				}
+.color:hover{
+	border-color: whitesmoke;
+}
 
-				#color_container{
-					
-					width: 200px;
-				}
+#color_container{
+	
+	width: 200px;
+}
 
-				div{
-					padding: 2.5px;
-					margin: 2.5px;
-					background-color: #252629;
-					color: whitesmoke;
-				}
-				.menu{
-					margin: 5px;
-				}
-				#iptd{
-					background-color: #404247;
-					float: right;
-					position: relative;
-					z-index: 5;
-					display: flex;
-				}
-				#container{
-					background-color: #404247;
-					position: fixed;
-					right: 0;
-					z-index: 5;
-				}
-				#blockDraw{
-					background-color: rgba(0, 0, 0, 0.0);
-					width: 1000px;
-					height: 500px;
-				}
-				#canvas{
-					border-style: solid;
-					background-image: url(../images/opacity-background.png);
-				}
-				#svg{
-					border-style: solid;
-					background-image: url(../images/opacity-background.png);
-				}
+#code_svg{
+	height: 400px;
+	width: 200px;
+	color: lightskyblue;
+	background-color: rgb(20, 20, 20);
+	text-align: left;
+}
+
+div{
+	padding: 2.5px;
+	margin: 2.5px;
+	background-color: #252629;
+	color: whitesmoke;
+}
+.menu{
+	margin: 5px;
+}
+#iptd{
+	background-color: #404247;
+	float: right;
+	position: relative;
+	z-index: 5;
+	display: flex;
+}
+#container{
+	background-color: #404247;
+	position: fixed;
+	right: 0;
+	z-index: 5;
+}
+#blockDraw{
+	background-color: rgba(0, 0, 0, 0.0);
+	width: 1000px;
+	height: 500px;
+}
+#canvas{
+	border-style: solid;
+	background-image: url(../images/opacity-background.png);
+}
+#svg{
+	border-style: solid;
+	background-image: url(../images/opacity-background.png);
+}

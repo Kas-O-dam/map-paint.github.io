@@ -1,23 +1,27 @@
 <!DOCTYPE html>
     <html>
         <head>
-            <meta charset="UTF-8">
+            <meta charset="UTF-8"/>
             <title>WebPaint</title>
             <link rel="stylesheet" type="text/css" href="styles/style.css">
             <link rel="stylesheet" type="text/css" href="styles/colors.css">
         </head>
         <body>
         	<menu>
-        		<div id="export">Export</div>
-        		<div id="device">PC</div>
-        		<div id="styleDraw">Canvas</div>
-<!--         		<div id="size">1280*720</div>
- -->        	</menu>
-        	<h3>press 'Enter' for save</h3>
+        		<select id="export">
+        			<option class="download">image/png</option>
+        			<option class="download">image/jpeg</option>
+        			<option class="download">image/webp</option>
+        		</select>
+        		<!-- <input id="device" type="textarea"/> -->
+        		<select id="styleDraw">
+        			<option>canvas</option>
+        			<option>svg</option>
+        		</select>
+        	</menu>
         	<div id="container">
         		<div><input id="widthInput" type="range" placeholder="width" name="paintWidth"/><span class="menu" id="width">?</span></div>
-<!-- 	        	<div><input id="styleDraw" type="textarea" placeholder="canvas" name="canvas" class="menu" id="styleDraw"></div>
- -->	        	<div><input type="textarea" placeholder="1280*720" name="size" class="menu" id="size"></div>
+	        	<div><input type="textarea" placeholder="1280*720" name="size" class="menu" id="size"></div>
 
 		        <div id="color_container">
 		        	<div>
@@ -52,6 +56,14 @@
 		        		<div class="color" id="black"></div>
 	    			</div>
 	        	</div>
+	        	<div>
+	        		<textarea wrap="hard" id="code_svg"></textarea>
+	        		<style>
+	        			textarea{
+	        				outline: none;
+	        			}
+	        		</style>
+	        	</div>
         	</div>
             <!--<svg width="80%"
        			height="500px"
@@ -61,6 +73,7 @@
 			</svg>-->
 			<!--<canvas id="canvas" height="500px" width="1000px">Your browser don't support canvas</canvas>-->
 			<div id="blockDraw"></div>
-			<script src="operator.js"></script>
+<!-- 			<script src="block.js"></script>
+ -->			<script src="operator.js"></script>
 		</body>
     </html>
