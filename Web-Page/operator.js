@@ -27,9 +27,9 @@ let wc = '1280'; //изначальная высота, т. е. расширен
 let mime = 0; // 0 задаётся по приколу, сама переменная хранит в себе MIME тип в котором юзер сохраняет имейдж, к примеру png, jpeg, ну ты понял, да?
 
 //следующие три переменные на данный момент бессмыслены, но в будущем по идеи они меняются на строки тач-событий
-let move_type = 'mousemove';
-let up_type = 'mouseup';
-let down_type = 'mousedown';
+let move_type = 'pointermove';
+let up_type = 'pointerup';
+let down_type = 'pointerdown';
 
 //функция для изменения размена
 //добавляем обработчик событий
@@ -38,7 +38,7 @@ function sizeWhat(){
 	//спрашиваем размер
 	wc = prompt('Set width (px)')
 	hc = prompt('Set height (px)');
-	//не знаю чё это 
+	//не знаю зачем это 
 	size.innerHTML = wc + '*' + hc;
 	//смена значения расширения в атрибуте placeholder
 	size.setAttribute('placeholder', `${wc}*${hc}`)
