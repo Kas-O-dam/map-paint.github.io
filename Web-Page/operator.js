@@ -25,11 +25,27 @@ let size = document.getElementById('size'); //форма при нажатии �
 let hc = '720'; //изначальная ширина
 let wc = '1280'; //изначальная высота, т. е. расширение 720р
 let mime = 0; // 0 задаётся по приколу, сама переменная хранит в себе MIME тип в котором юзер сохраняет имейдж, к примеру png, jpeg, ну ты понял, да?
+let nav_switchers = document.getElementsByClassName('color'); //переключатель с перемещения по рисование и наоборот
+let alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; //алфавит, строка букв для генератора
+let result =''; //это тоже для генератора, то, что он по идее должен возвращать
+let active_id;
+let active_element;
+let svg_tag = 'path';
 
 //следующие три переменные на данный момент бессмыслены, но в будущем по идеи они меняются на строки тач-событий
 let move_type = 'pointermove';
 let up_type = 'pointerup';
 let down_type = 'pointerdown';
+
+function name_generator(){//сама функция генератора, нужно для генерации имён для svg тегов
+	result = '$'//это нужно для того, чтобы легко отличить сгенерированные от нормальных имён
+	for(i=0; i<=60; i++){//цикл, тут всё просто
+		if(i===60){//ограничиваем кол-во символов
+			return result;//ретарним если хватит
+		};
+		result = result + alphabet[Math.round(Math.random()*51)];//при каждой итерации присваиваем рандомный символ
+	};
+};
 
 //функция для изменения размена
 //добавляем обработчик событий
@@ -68,31 +84,9 @@ let widthInput = document.getElementById('widthInput')
 let colorBlock = document.querySelector('#color');
 let color = 'black';
 
-// Это я тип для мобилок делал, но чёт не зашло 
-
-/*let device = 'PC';
-let device_block = document.getElementById('device');
-device_block.addEventListener("blur", change_device);
-
-function change_device(){
-	let user_input = device_block.value;
-	if(user_input.toLowerCase() == 'phone'){
-		move_type = 'touchmove';
-		up_type = 'touchend';
-		down_type = 'touchstart';
-	}else if(user_input.toLowerCase() == 'pc'){
-		move_type = 'mousemove';
-		up_type = 'mouseup';
-		down_type = 'mousedown';
-	}else{	
-		alert("Uncorrect or unsupported device. Your device in settings at this moment: PC")
-	};
-};
-*/
-
 //вот собсн и переключатель между эсвэгэ и канвас
 //переменная, хранящая в себе текущий формат рисования
-let format = 'canvas';
+let format = 'svg';
 //форма в которой выбирают формат
 let styleDraw = document.getElementById('styleDraw');
 //третий раз говорить не буду...        это обработчик событий!
@@ -148,11 +142,11 @@ code.style.display = 'none';
 и сам элемент холста*/ 
 let canvas = document.querySelector(`#canvas`);
 let ctx = canvas.getContext('2d');
-	let coursor = {
-		StartX: undefined,
-		StartY: undefined,
-		EndX: undefined,
-		EndY: undefined, 
+let coursor = {
+	StartX: undefined,
+	StartY: undefined,
+	EndX: undefined,
+	EndY: undefined
 	};
 
 option = document.getElementsByClassName('download');
@@ -243,6 +237,10 @@ code.style.display = 'block'
 		svg.addEventListener(move_type, draw);
 		svg.removeEventListener(down_type, begin);
 		svg.addEventListener(up_type, end);
+		active_id = name_generator();
+		svg.innerHTML += `<${svg_tag} id="${active_id}" fill-opacity="0.0" stroke="${color}" stroke-width="${width}"></${svg_tag}>`;
+		active_element = document.getElementById(active_id);
+		active_element.setAttribute('d', `M ${event.pageX - picture.offsetLeft} ${event.pageY - picture.offsetTop}`)
 	};
 
 /* возвращает все события в начальное состояние
@@ -268,15 +266,32 @@ code.style.display = 'block'
 		code.value = svg.innerHTML
 		coursor.StartX = event.pageX - picture.offsetLeft;
 		coursor.StartY = event.pageY - picture.offsetTop;
+
+		coursor.EndX = event.pageX - picture.offsetLeft;
+		coursor.EndY = event.pageY - picture.offsetTop; 
 		setTimeout(function(){
-			coursor.EndX = event.pageX - picture.offsetLeft
+			coursor.EndX = event.pageX - picture.offsetLeft;
 			coursor.EndY = event.pageY - picture.offsetTop; 
 		}, 0.1)
-		svg.innerHTML = svg.innerHTML + `<path d="M ${coursor.StartX} ${coursor.StartY} L ${coursor.EndX} ${coursor.EndY}" stroke="${color}" stroke-width="${width}" fill="black" stroke-linecap="round"/>`
+		active_element.setAttribute('d', active_element.getAttribute('d')+` L ${coursor.StartX} ${coursor.StartY}`+` L ${coursor.EndX} ${coursor.EndY}`)
+		//svg.innerHTML = svg.innerHTML + `<path d="M ${coursor.StartX} ${coursor.StartY} L ${coursor.EndX} ${coursor.EndY}" stroke="${color}" stroke-width="${width}" fill="black" stroke-linecap="round"/>`
 	};
 };
 
-
+nav_switchers[0].addEventListener('click', function(){
+	blockDraw.style.touchAction = 'auto';
+	format = undefined;
+	up_type = undefined;
+	down_type = undefined;
+	move_type = undefined;
+});
+nav_switchers[1].addEventListener('click', function(){
+	blockDraw.style.touchAction = 'none'
+	format = 'svg';
+	move_type = 'pointermove';
+	up_type = 'pointerup';
+	down_type = 'pointerdown';
+});
 
 	let palitre = {
 		tinylight:{
