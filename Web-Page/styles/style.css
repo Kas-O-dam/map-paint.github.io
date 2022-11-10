@@ -82,11 +82,19 @@ div{
 	margin-left: 5px;
 	border-radius: 5px;
 }
-img{
+.img_ic{
 	width: 24px;
 	height: 24px;
 	margin-bottom: -2.5px;
 	margin-left: 5px;
+}
+.img_img{
+	width: 24px;
+	height: 24px;
+}
+.img_img_img{
+	width: 23px;
+	width: 23px;
 }
 .group{
 	width: 200px;

@@ -37,6 +37,14 @@ let move_type = 'pointermove';
 let up_type = 'pointerup';
 let down_type = 'pointerdown';
 
+// объект, хранящий в себе координаты курсора
+let coursor = {
+	StartX: undefined,
+	StartY: undefined,
+	EndX: undefined,
+	EndY: undefined
+	};
+
 function name_generator(){//сама функция генератора, нужно для генерации имён для svg тегов
 	result = '$'//это нужно для того, чтобы легко отличить сгенерированные от нормальных имён
 	for(i=0; i<=60; i++){//цикл, тут всё просто
@@ -86,7 +94,7 @@ let color = 'black';
 
 //вот собсн и переключатель между эсвэгэ и канвас
 //переменная, хранящая в себе текущий формат рисования
-let format = 'svg';
+let format = 'canvas';
 //форма в которой выбирают формат
 let styleDraw = document.getElementById('styleDraw');
 //третий раз говорить не буду...        это обработчик событий!
@@ -138,16 +146,9 @@ function canvas(){
 
 code.style.display = 'none';
 
-/*Эта фигня объявляет объект с координатами и их начальным значением
-и сам элемент холста*/ 
+/*Эта фигня объявляет элемент холста*/ 
 let canvas = document.querySelector(`#canvas`);
 let ctx = canvas.getContext('2d');
-let coursor = {
-	StartX: undefined,
-	StartY: undefined,
-	EndX: undefined,
-	EndY: undefined
-	};
 
 option = document.getElementsByClassName('download');
 option[0].addEventListener("click", export_to_data);
@@ -218,15 +219,8 @@ function svg(){
 
 code.style.display = 'block'
 
-/*Эта фигня объявляет объект с координатами и их начальным значением
-и сам элемент холста*/ 
-	let svg = document.querySelector(`#svg`);
-	let coursor = {
-		StartX: undefined,
-		StartY: undefined,
-		EndX: undefined,
-		EndY: undefined, 
-	};	
+/*Эта фигня объявляет элемент холста*/ 
+	let svg = document.querySelector(`#svg`);	
 /*Начальное событие, по нажатию кнопки запускать функцию begin()*/ 
 	svg.addEventListener(down_type, begin);
 
@@ -281,13 +275,21 @@ code.style.display = 'block'
 nav_switchers[0].addEventListener('click', function(){
 	blockDraw.style.touchAction = 'auto';
 	format = undefined;
+
 	up_type = undefined;
 	down_type = undefined;
 	move_type = undefined;
+
+	coursor.StartX = undefined;
+	coursor.StartY = undefined;
+
+	coursor.EndX = undefined;
+	coursor.EndY = undefined; 
+
 });
 nav_switchers[1].addEventListener('click', function(){
 	blockDraw.style.touchAction = 'none'
-	format = 'svg';
+	format = 'canvas';
 	move_type = 'pointermove';
 	up_type = 'pointerup';
 	down_type = 'pointerdown';
