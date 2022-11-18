@@ -9,16 +9,7 @@
         </head>
         <body>
         	<menu>
-        		<select id="export">
-        			<option class="download">image/png</option>
-        			<option class="download">image/jpeg</option>
-        			<option class="download">image/webp</option>
-        		</select>
-        		<!-- <input id="device" type="textarea"/> -->
-        		<select id="styleDraw">
-        			<option>canvas</option>
-        			<option>svg</option>
-        		</select>
+        		
         	</menu>
         	<div id="container">
         		<div class="group">
@@ -30,15 +21,31 @@
 		        		<div>
 		        			<input id="widthInput" type="range" placeholder="width" name="paintWidth"/><span class="menu" id="width">?</span>
 		        		</div>
-		        		<div class="color img_img">
-		        			<img class="img_img_img" src="Web-Page/images/hand.svg" alt="g">
+		        		<div class="tool">
+		        			<img class="tool_icon" src="Web-Page/images/hand.svg" alt="g">
 		        		</div>
-		        		<div class="color img_img">
-		        			<img class="img_img_img" src="Web-Page/images/brush.svg" alt="g">
+		        		<div class="tool">
+		        			<img class="tool_icon" src="Web-Page/images/brush.svg" alt="g">
+		        		</div>
+		        		<div class="tool">
+		        			<img class="tool_icon" src="Web-Page/images/redo.svg" alt="g">
+		        		</div>
+		        		<div class="tool">
+		        			<img class="tool_icon" src="Web-Page/images/undo.svg" alt="g">
 		        		</div>
 			        	<div>
 			        		<input type="textarea" placeholder="1280*720" name="size" class="menu" id="size">
 			        	</div>
+			        	<select id="export">
+        			<option class="download">image/png</option>
+        			<option class="download">image/jpeg</option>
+        			<option class="download">image/webp</option>
+        		</select>
+        		<br/>
+        		<select id="styleDraw">
+        			<option>canvas</option>
+        			<option>svg</option>
+        		</select>
 			        </div>
 		        </div>
 		        <div class="group">

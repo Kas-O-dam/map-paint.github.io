@@ -25,12 +25,13 @@ let size = document.getElementById('size'); //форма при нажатии �
 let hc = '720'; //изначальная ширина
 let wc = '1280'; //изначальная высота, т. е. расширение 720р
 let mime = 0; // 0 задаётся по приколу, сама переменная хранит в себе MIME тип в котором юзер сохраняет имейдж, к примеру png, jpeg, ну ты понял, да?
-let nav_switchers = document.getElementsByClassName('color'); //переключатель с перемещения по рисование и наоборот
+let tool = document.getElementsByClassName('tool'); //переключатель с перемещения по рисование и наоборот
 let alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; //алфавит, строка букв для генератора
 let result =''; //это тоже для генератора, то, что он по идее должен возвращать
 let active_id;
 let active_element;
 let svg_tag = 'path';
+let action_list = [];
 
 //следующие три переменные на данный момент бессмыслены, но в будущем по идеи они меняются на строки тач-событий
 let move_type = 'pointermove';
@@ -94,7 +95,7 @@ let color = 'black';
 
 //вот собсн и переключатель между эсвэгэ и канвас
 //переменная, хранящая в себе текущий формат рисования
-let format = 'canvas';
+let format = 'svg';
 //форма в которой выбирают формат
 let styleDraw = document.getElementById('styleDraw');
 //третий раз говорить не буду...        это обработчик событий!
@@ -156,7 +157,7 @@ option[1].addEventListener("click", export_to_data);
 option[2].addEventListener("click", export_to_data); 
 function export_to_data(){
 	mime = document.getElementById('export').value;
-	window.location = canvas.toDataURL(mime);
+	setTimeout(function(){document.location.href = canvas.toDataURL(mime)}, 500)
 };
 
 
@@ -270,9 +271,19 @@ code.style.display = 'block'
 		active_element.setAttribute('d', active_element.getAttribute('d')+` L ${coursor.StartX} ${coursor.StartY}`+` L ${coursor.EndX} ${coursor.EndY}`)
 		//svg.innerHTML = svg.innerHTML + `<path d="M ${coursor.StartX} ${coursor.StartY} L ${coursor.EndX} ${coursor.EndY}" stroke="${color}" stroke-width="${width}" fill="black" stroke-linecap="round"/>`
 	};
+	tool[2].addEventListener('click', function(){
+		try{
+			action_list.push(svg.lastElementChild.outerHTML);
+			svg.removeChild(svg.lastElementChild);
+		}catch{};
+	})
+	tool[3].addEventListener('click', function(){
+		svg.innerHTML += action_list[action_list.length - 1];
+		action_list.pop(action_list[action_list.length - 1])
+	})
 };
 
-nav_switchers[0].addEventListener('click', function(){
+tool[0].addEventListener('click', function(){
 	blockDraw.style.touchAction = 'auto';
 	format = undefined;
 
@@ -287,7 +298,7 @@ nav_switchers[0].addEventListener('click', function(){
 	coursor.EndY = undefined; 
 
 });
-nav_switchers[1].addEventListener('click', function(){
+tool[1].addEventListener('click', function(){
 	blockDraw.style.touchAction = 'none'
 	format = 'canvas';
 	move_type = 'pointermove';

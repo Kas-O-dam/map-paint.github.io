@@ -88,11 +88,23 @@ div{
 	margin-bottom: -2.5px;
 	margin-left: 5px;
 }
-.img_img{
+.tool{
 	width: 24px;
 	height: 24px;
+
+	border-style: solid;
+	border-radius: 5px;
+	border-width: 2px;
+	border-color: dimgray;
+
+	display: inline-block;
+
+	margin: 0px;
 }
-.img_img_img{
+.tool:hover{
+	border-color: whitesmoke;
+}
+.tool_icon{
 	width: 23px;
 	width: 23px;
 }
