@@ -25,6 +25,7 @@ let size = document.getElementById('size'); //форма при нажатии �
 let hc = '720'; //изначальная ширина
 let wc = '1280'; //изначальная высота, т. е. расширение 720р
 let mime = 0; // 0 задаётся по приколу, сама переменная хранит в себе MIME тип в котором юзер сохраняет имейдж, к примеру png, jpeg, ну ты понял, да?
+let palitre = document.querySelectorAll('.color');
 let tool = document.getElementsByClassName('tool'); //переключатель с перемещения по рисование и наоборот
 let alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'; //алфавит, строка букв для генератора
 let result =''; //это тоже для генератора, то, что он по идее должен возвращать
@@ -150,6 +151,8 @@ code.style.display = 'none';
 /*Эта фигня объявляет элемент холста*/ 
 let canvas = document.querySelector(`#canvas`);
 let ctx = canvas.getContext('2d');
+let action_list = [];
+let rem_list = [];
 
 option = document.getElementsByClassName('download');
 option[0].addEventListener("click", export_to_data);
@@ -167,45 +170,60 @@ function export_to_data(){
 /*добавляет событие при движении мышью на холсте
 Очищает саму себя и добавляет событие на функцию end() при отпускании мыши*/
 
-	function begin(){
+	function begin(event, sw=true){
 		canvas.addEventListener(move_type, draw);
 		canvas.removeEventListener(down_type, begin);
 		canvas.addEventListener(up_type, end);
 		ctx.beginPath();
 		ctx.lineWidth = width;
 		ctx.strokeStyle = color;
-		ctx.moveTo(coursor.StartX, coursor.StartY);
+		ctx.moveTo(event.pageX - canvas.offsetLeft, event.pageY - canvas.offsetTop);
+		if(sw){action_list.push([]);};
 	};
 
 /* возвращает все события в начальное состояние
 и сбрасывает координаты курсора*/
 
-	function end(){
+	function end(sw=true){
 		canvas.removeEventListener(move_type, draw)
 		canvas.removeEventListener(up_type, end);
 		canvas.addEventListener(down_type, begin);
-		coursor.StartX = undefined;
-		coursor.StartY = undefined;
-		setTimeout(function(){
-			coursor.EndX = undefined;
-			coursor.EndY = undefined; 
-		}, 0.1)
+		coursor.EndX = undefined;
+		coursor.EndY = undefined;
+		//console.log(action_list);
 	};
 
 /*Находит начальные координаты и заносит в ранее объявленный объект
 Спустя доли секунды находит координаты ещё раз, занося их в конечные координаты
 По окончанию получения данных о движении курсора, добавляет тег в эсвэгэшку со всеми данными, настроенные пользователем*/
 
-	function draw(event){
-		coursor.StartX = event.pageX - canvas.offsetLeft;
-		coursor.StartY = event.pageY - canvas.offsetTop;
-		setTimeout(function(){
-			coursor.EndX = event.pageX - canvas.offsetLeft;
-			coursor.EndY = event.pageY - canvas.offsetTop; 
-		}, 15)
-		ctx.lineTo(coursor.EndX, coursor.EndY)
-		ctx.stroke()	
+	function draw(event, sw=true){
+		action_list[action_list.length-1].push({});
+		if(sw){
+			action_list[action_list.length-1][action_list[action_list.length-1].length-1].x = coursor.EndX = event.pageX - canvas.offsetLeft;	
+			action_list[action_list.length-1][action_list[action_list.length-1].length-1].y = coursor.EndY = event.pageY - canvas.offsetTop;
+		};
+		ctx.lineTo(coursor.EndX, coursor.EndY);
+		ctx.stroke();
 	};
+	/*function undo(){
+		ctx.clearRect(0, 0, wc, hc)
+		action_list.pop()
+		console.log(action_list)
+		for(let line of action_list){
+			begin('pointerdown', false)
+			let counter = -1
+			for(let obj of line){
+				counter+=1
+				coursor.EndX = line[counter].x;
+				coursor.EndY = line[counter].y;
+				draw('pointermove', false);
+			};
+			end(false)
+		};
+	
+	};*/
+	//tool[2].addEventListener('click', undo);
 };
 
 //		__	 __		   __   ____
@@ -269,7 +287,6 @@ code.style.display = 'block'
 			coursor.EndY = event.pageY - picture.offsetTop; 
 		}, 0.1)
 		active_element.setAttribute('d', active_element.getAttribute('d')+` L ${coursor.StartX} ${coursor.StartY}`+` L ${coursor.EndX} ${coursor.EndY}`)
-		//svg.innerHTML = svg.innerHTML + `<path d="M ${coursor.StartX} ${coursor.StartY} L ${coursor.EndX} ${coursor.EndY}" stroke="${color}" stroke-width="${width}" fill="black" stroke-linecap="round"/>`
 	};
 	tool[2].addEventListener('click', function(){
 		try{
@@ -305,96 +322,7 @@ tool[1].addEventListener('click', function(){
 	up_type = 'pointerup';
 	down_type = 'pointerdown';
 });
-
-	let palitre = {
-		tinylight:{
-			tinylightred: document.querySelector('#tinylightred'),
-			tinylightorange: document.querySelector('#tinylightorange'),
-			tinylightyellow: document.querySelector('#tinylightyellow'),
-			tinylightgreen: document.querySelector('#tinylightgreen'),
-			tinylightblue: document.querySelector('#tinylightblue'),
-			tinylightblack: document.querySelector('#tinylightblack'),
-			tinylightgray: document.querySelector('#tinylightgray')
-		},
-		light:{
-			lightred: document.querySelector('#lightred'),
-			lightorange: document.querySelector('#lightorange'),
-			lightyellow: document.querySelector('#lightyellow'),
-			lightgreen: document.querySelector('#lightgreen'),
-			lightblue: document.querySelector('#lightblue'),
-			lightblack: document.querySelector('#lightblack'),
-			lightgray: document.querySelector('#lightgray')
-		},
-		hugelight:{
-			hugelightred: document.querySelector('#hugelightred'),
-			hugelightorange: document.querySelector('#hugelightorange'),
-			hugelightyellow: document.querySelector('#hugelightyellow'),
-			hugelightgreen: document.querySelector('#hugelightgreen'),
-			hugelightblue: document.querySelector('#hugelightblue'),
-			hugelightblack: document.querySelector('#hugelightblack'),
-			hugelightgray: document.querySelector('#hugelightgray')
-		},
-		normal:{
-			red: document.querySelector('#red'),
-			orange: document.querySelector('#orange'),
-			yellow: document.querySelector('#yellow'),
-			green: document.querySelector('#green'),
-			blue: document.querySelector('#blue'),
-			black: document.querySelector('#black'),
-			white: document.querySelector('#white')
-		},
-		tinydark:{
-			tinydarkred: document.querySelector('#tinydarkred'),
-			tinydarkyellow: document.querySelector('#tinydarkyellow'),
-			tinydarkgreen: document.querySelector('#tinydarkgreen'),
-			tinydarkblue: document.querySelector('#tinydarkblue'),
-			tinybrown: document.querySelector('#tinybrown'),
-			tinydarkgray: document.querySelector('#tinydarkgray')
-		},
-		dark:{
-			darkred: document.querySelector('#darkred'),
-			darkyellow: document.querySelector('#darkyellow'),
-			darkgreen: document.querySelector('#darkgreen'),
-			darkblue: document.querySelector('#darkblue'),
-			brown: document.querySelector('#brown'),
-			darkgray: document.querySelector('#darkgray')
-		},
-		hugedark:{
-			hugedarkred: document.querySelector('#darkred'),
-			hugedarkyellow: document.querySelector('#darkyellow'),
-			hugedarkgreen: document.querySelector('#darkgreen'),
-			hugedarkblue: document.querySelector('#darkblue'),
-			hugebrown: document.querySelector('#brown'),
-			hugedarkgray: document.querySelector('#darkgray')
-		},
-	};
-
-	palitre.normal.red.addEventListener('click', function(){color = 'red'})
-	palitre.normal.orange.addEventListener('click', function(){color = 'orange'})
-	palitre.normal.yellow.addEventListener('click', function(){color = 'yellow'})
-	palitre.normal.green.addEventListener('click', function(){color = 'green'})
-	palitre.normal.blue.addEventListener('click', function(){color = 'blue'})
-	palitre.normal.black.addEventListener('click', function(){color = 'black'}) 
-	palitre.normal.white.addEventListener('click', function(){color = 'white'})
-
-	palitre.dark.darkred.addEventListener('click', function(){color = '#781b13'})
-	palitre.dark.darkyellow.addEventListener('click', function(){color = '#48411b'})
-	palitre.dark.darkgreen.addEventListener('click', function(){color = '#1a502e'})
-	palitre.dark.darkblue.addEventListener('click', function(){color = '#050e51'})
-	palitre.dark.brown.addEventListener('click', function(){color = 'brown'})
-	palitre.dark.darkgray.addEventListener('click', function(){color = '#20292e'})
-
-	palitre.light.lightred.addEventListener('click', function(){color = '#f9beab'})
-	palitre.light.lightorange.addEventListener('click', function(){color = '#f6d46c'})
-	palitre.light.lightyellow.addEventListener('click', function(){color = '#f9f265'})
-	palitre.light.lightgreen.addEventListener('click', function(){color = '#e4e795'})
-	palitre.light.lightblue.addEventListener('click', function(){color = '#a5a5d6'})
-	palitre.light.lightgray.addEventListener('click', function(){color = '#d1d1d1'})
-/*
-	palitre.tinylight.lightred.addEventListener('click', function(){color = '#f9beab'})
-	palitre.tinylight.lightorange.addEventListener('click', function(){color = '#f6d46c'})
-	palitre.tinylight.lightyellow.addEventListener('click', function(){color = '#f9f265'})
-	palitre.tinylight.lightgreen.addEventListener('click', function(){color = '#e4e795'})
-	palitre.tinylight.lightblue.addEventListener('click', function(){color = '#a5a5d6'})
-	palitre.tinylight.lightgray.addEventListener('click', function(){color = '#d1d1d1'})
-*/
+for(let index = 0; index < 35; index++){
+	palitre[index].addEventListener('click', function(){color = palitre[index].getAttribute('title')});
+	palitre[index].style.backgroundColor = palitre[index].getAttribute('title');
+};
