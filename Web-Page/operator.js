@@ -277,16 +277,16 @@ code.style.display = 'block'
 
 	function draw(event){
 		code.value = svg.innerHTML
-		coursor.StartX = event.pageX - picture.offsetLeft;
-		coursor.StartY = event.pageY - picture.offsetTop;
+		coursor.StartX = Math.round(event.pageX - picture.offsetLeft);
+		coursor.StartY = Math.round(event.pageY - picture.offsetTop);
 
 		coursor.EndX = event.pageX - picture.offsetLeft;
 		coursor.EndY = event.pageY - picture.offsetTop; 
 		setTimeout(function(){
-			coursor.EndX = event.pageX - picture.offsetLeft;
-			coursor.EndY = event.pageY - picture.offsetTop; 
+			coursor.EndX = Math.round(event.pageX - picture.offsetLeft);
+			coursor.EndY = Math.round(event.pageY - picture.offsetTop); 
 		}, 0.1)
-		active_element.setAttribute('d', active_element.getAttribute('d')+` L ${coursor.StartX} ${coursor.StartY}`+` L ${coursor.EndX} ${coursor.EndY}`)
+		active_element.setAttribute('d', active_element.getAttribute('d')+`L ${coursor.EndX} ${coursor.EndY}`)
 	};
 	tool[2].addEventListener('click', function(){
 		try{
