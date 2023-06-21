@@ -63,7 +63,7 @@ div{
 	touch-action: none;
 	margin: 50px;
 }
-#canvas{
+canvas{
 	border-style: solid;
 	background-image: url(../images/opacity-background.png);
 }

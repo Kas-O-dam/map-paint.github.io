@@ -33,6 +33,7 @@ let active_id;
 let active_element;
 let svg_tag = 'path';
 let action_list = [];
+let actions = []
 
 //следующие три переменные на данный момент бессмыслены, но в будущем по идеи они меняются на строки тач-событий
 let move_type = 'pointermove';
@@ -96,7 +97,7 @@ let color = 'black';
 
 //вот собсн и переключатель между эсвэгэ и канвас
 //переменная, хранящая в себе текущий формат рисования
-let format = 'svg';
+let format = 'canvas';
 //форма в которой выбирают формат
 let styleDraw = document.getElementById('styleDraw');
 //третий раз говорить не буду...        это обработчик событий!
@@ -151,8 +152,6 @@ code.style.display = 'none';
 /*Эта фигня объявляет элемент холста*/ 
 let canvas = document.querySelector(`#canvas`);
 let ctx = canvas.getContext('2d');
-let action_list = [];
-let rem_list = [];
 
 option = document.getElementsByClassName('download');
 option[0].addEventListener("click", export_to_data);
@@ -178,59 +177,55 @@ function export_to_data(){
 		ctx.lineWidth = width;
 		ctx.strokeStyle = color;
 		ctx.moveTo(event.pageX - canvas.offsetLeft, event.pageY - canvas.offsetTop);
-		if(sw){action_list.push([]);};
+		actions.push({
+			// StartX: event.pageX - canvas.offsetLeft,
+			// StartY: event.pageY - canvas.offsetTop,
+			// Color: color,
+			// Width: width
+		})
 	};
 
 /* возвращает все события в начальное состояние
 и сбрасывает координаты курсора*/
 
-	function end(sw=true){
+	function end(){
 		canvas.removeEventListener(move_type, draw)
 		canvas.removeEventListener(up_type, end);
 		canvas.addEventListener(down_type, begin);
+		// actions[actions.length - 1].EndX = coursor.Endx;
+		// actions[actions.length - 1].EndY = coursor.EndY;
+		actions[actions.length - 1].Data = canvas.toDataURL('image/png');
 		coursor.EndX = undefined;
 		coursor.EndY = undefined;
-		//console.log(action_list);
+		console.log(actions);
 	};
 
 /*Находит начальные координаты и заносит в ранее объявленный объект
 Спустя доли секунды находит координаты ещё раз, занося их в конечные координаты
 По окончанию получения данных о движении курсора, добавляет тег в эсвэгэшку со всеми данными, настроенные пользователем*/
 
-	function draw(event, sw=true){
-		action_list[action_list.length-1].push({});
-		if(sw){
-			action_list[action_list.length-1][action_list[action_list.length-1].length-1].x = coursor.EndX = event.pageX - canvas.offsetLeft;	
-			action_list[action_list.length-1][action_list[action_list.length-1].length-1].y = coursor.EndY = event.pageY - canvas.offsetTop;
-		};
+	function draw(event){
+		coursor.EndX = event.pageX - canvas.offsetLeft;	
+		coursor.EndY = event.pageY - canvas.offsetTop;
 		ctx.lineTo(coursor.EndX, coursor.EndY);
 		ctx.stroke();
 	};
-	/*function undo(){
-		ctx.clearRect(0, 0, wc, hc)
-		action_list.pop()
-		console.log(action_list)
-		for(let line of action_list){
-			begin('pointerdown', false)
-			let counter = -1
-			for(let obj of line){
-				counter+=1
-				coursor.EndX = line[counter].x;
-				coursor.EndY = line[counter].y;
-				draw('pointermove', false);
-			};
-			end(false)
+	tool[2].addEventListener('click', function(){ 
+		let img = new Image();
+		img.onload = function (){
+			console.log("yes!");
+    		let ctx = canvas.getContext('2d');
+			img.src =  actions[actions.length - 2].Data;
+    		ctx.drawImage(img, 0, 0);
 		};
-	
-	};*/
-	//tool[2].addEventListener('click', undo);
+	});
 };
 
-//		__	 __		   __   ____
-//	 / \_\ \ \    / /  / ____\
+//	  __	 __		 __   ____
+//	 / \_\   \ \    / /  / ____\
 //	 | |	  \ \  / /  | | _____
 //		\ \	   \ \/ /   | ||__  |
-//	  __| |	  \  /    | |___| |
+//	  __| |	    \  /    | |___| |
 //	 \__/ /		 \/      \_____/
 
 
