@@ -55,6 +55,7 @@ div{
 	z-index: 5;
 }
 #container div{
+	
 }
 #blockDraw{
 	background-color: rgba(0, 0, 0, 0.0);
@@ -67,7 +68,7 @@ canvas{
 	border-style: solid;
 	background-image: url(../images/opacity-background.png);
 }
-#svg{
+svg{
 	border-style: solid;
 	background-image: url(../images/opacity-background.png);
 }

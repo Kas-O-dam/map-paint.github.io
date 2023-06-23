@@ -19,7 +19,8 @@
 		        	</div>
 	        		<div class="content">
 		        		<div>
-		        			<input id="widthInput" type="range" placeholder="width" name="paintWidth"/><span class="menu" id="width">?</span>
+		        			<input id="width_input" type="range" placeholder="width" name="paintWidth"/>
+							<span class="menu" id="width_visible_value">?</span>
 		        		</div>
 		        		<div class="tool">
 		        			<img class="tool_icon" src="Web-Page/images/hand.svg" alt="g">
@@ -54,56 +55,56 @@
 		        		<img class="img_ic" src="Web-Page/images/palette.svg" alt=" "/>
 		        	</div>
 		        	<div class="content" style="height: 200px;">
-			        	<div>
-						<div class="color" title="salmon"></div>
-						<div class="color" title="indianred"></div>
-						<div class="color" title="red"></div>
-						<div class="color" title="darkred"></div>
-					</div>
-					<div>
-						<div class="color" title="lightyellow"></div>
-						<div class="color" title="papayawhip"></div>
-						<div class="color" title="moccasin"></div>
-						<div class="color" title="peachpuff"></div>
-					<div>
-					</div>
-						<div class="color" title="yellow"></div>
-						<div class="color" title="orange"></div>
-						<div class="color" title="darkorange"></div>
-						<div class="color" title="orangered"></div>
-						<div class="color" title="chocolate"></div>
-						<div class="color" title="saddlebrown"></div>
-						<div class="color" title="brown"></div>
-					</div>
-					<div>
-						<div class="color" title="greenyellow"></div>
-						<div class="color" title="lawngreen"></div>
-						<div class="color" title="lime"></div>
-						<div class="color" title="limegreen"></div>
-						<div class="color" title="forestgreen"></div>
-						<div class="color" title="green"></div>
-						<div class="color" title="darkgreen"></div>
-					</div>
-					<div>
-						<div class="color" title="deepskyblue"></div>
-						<div class="color" title="dodgerblue"></div>
-						<div class="color" title="royalblue"></div>
-						<div class="color" title="blue"></div>
-						<div class="color" title="mediumblue"></div>
-						<div class="color" title="darkblue"></div>
-						<div class="color" title="navy"></div>
-					</div>
-					<div>
-						<div class="color" title="white"></div>
-						<div class="color" title="lightgray"></div>
-						<div class="color" title="silver"></div>
-						<div class="color" title="darkgray"></div>
-						<div class="color" title="gray"></div>
-						<div class="color" title="dimgray"></div>
-						<div class="color" title="black"></div>
-		    			</div>
-	        		</div>
-        		</div>
+						<div>
+							<div class="color" title="salmon"></div>
+							<div class="color" title="indianred"></div>
+							<div class="color" title="red"></div>
+							<div class="color" title="darkred"></div>
+						</div>
+						<div>
+							<div class="color" title="lightyellow"></div>
+							<div class="color" title="papayawhip"></div>
+							<div class="color" title="moccasin"></div>
+							<div class="color" title="peachpuff"></div>
+						<div>
+						</div>
+							<div class="color" title="yellow"></div>
+							<div class="color" title="orange"></div>
+							<div class="color" title="darkorange"></div>
+							<div class="color" title="orangered"></div>
+							<div class="color" title="chocolate"></div>
+							<div class="color" title="saddlebrown"></div>
+							<div class="color" title="brown"></div>
+						</div>
+						<div>
+							<div class="color" title="greenyellow"></div>
+							<div class="color" title="lawngreen"></div>
+							<div class="color" title="lime"></div>
+							<div class="color" title="limegreen"></div>
+							<div class="color" title="forestgreen"></div>
+							<div class="color" title="green"></div>
+							<div class="color" title="darkgreen"></div>
+						</div>
+						<div>
+							<div class="color" title="deepskyblue"></div>
+							<div class="color" title="dodgerblue"></div>
+							<div class="color" title="royalblue"></div>
+							<div class="color" title="blue"></div>
+							<div class="color" title="mediumblue"></div>
+							<div class="color" title="darkblue"></div>
+							<div class="color" title="navy"></div>
+						</div>
+						<div>
+							<div class="color" title="white"></div>
+							<div class="color" title="lightgray"></div>
+							<div class="color" title="silver"></div>
+							<div class="color" title="darkgray"></div>
+							<div class="color" title="gray"></div>
+							<div class="color" title="dimgray"></div>
+							<div class="color" title="black"></div>
+							</div>
+						</div>
+        			</div>
         		<div class="group">
 		        	<div class="icon_menu">
 			        	<span class="parenthese">⟨</span>
@@ -127,7 +128,8 @@
 			</svg>-->
 			<!--<canvas id="canvas" height="500px" width="1000px">Your browser don't support canvas</canvas>-->
 			<div id="blockDraw">
-				<canvas width="1280" height="720"></canvas>
+				<canvas width="0" height="0"></canvas>
+				<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720"></svg>
 			</div>
 			<script src="Web-Page/switch.js"></script>
 			<script src="app.js"></script>
