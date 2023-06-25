@@ -1,9 +1,8 @@
-let icons = document.getElementsByClassName('icon_menu');
+let icons = document.getElementsByClassName('icon-menu');
 let content = document.getElementsByClassName('content');
 let pt = document.getElementsByClassName('parenthese');
 let device = document.getElementsByClassName('device');
-let d_s = document.getElementById('device_select');
-let blockDraw = document.getElementById('blockDraw');
+let blockDraw = document.getElementById('canvas-block');
 
 icons[0].addEventListener('click', visible_one);
 icons[1].addEventListener('click', visible_two);

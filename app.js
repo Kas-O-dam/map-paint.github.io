@@ -4,8 +4,6 @@ class Brush{
 		this.width = width;
 		this.image = image;
 		this.cursor = new Object();
-			this.cursor.x = undefined;
-			this.cursor.y = undefined;
 			this.cursor.down = 'pointerdown';
 			this.cursor.move = 'pointermove';
 			this.cursor.up = 'pointerup';
@@ -16,12 +14,34 @@ class Canva{
 	constructor(){
 		//great hierarchy
 		const that = this;
-		this.drawMode = "svg"; //canvas or svg
+		this.drawMode = "canvas"; //canvas or svg
+		this.elseDrawMode = "svg"
 		// canva is such main object in all Canva
 		this.canva = new Object(); // canva - object for saving data and functions about draw area
+			this.canva.width = "1280";
+			this.canva.height = "720";
 			this.canva.journal = new Array();
+			this.canva.mime = "image/png";
+			this.canva.changeDrawMethod = function(){
+				that.drawMode = that.html.methodInput.value;
+				switch(that.drawMode){
+					case "canvas":
+						that.elseDrawMode = "svg";
+						that.canva.canvas.buildCanvas();
+						break;
+					case "svg":
+						that.elseDrawMode = "canvas";
+						that.canva.svg.buildSVG();
+						break;
+				};
+				that.canva[that.drawMode].tag.setAttribute('height', that.canva.height + 'px');
+				that.canva[that.drawMode].tag.setAttribute('width', that.canva.width + 'px');
+				that.canva[that.elseDrawMode].tag.setAttribute('height', '0px');
+				that.canva[that.elseDrawMode].tag.setAttribute('width', '0px');
+			};
 			this.canva.buildAll = () => {
 				// console.log("build system"); //
+				this.html.buttonSave.addEventListener('click', this.canva.changeDrawMethod);
 				this.html.widthInput.addEventListener('pointerup', function(){that.tool[that.drawMode].brush.width = that.html.widthInput.value});
 				this.html.widthInput.addEventListener('pointermove', function(){that.html.widthVisibleValue.innerHTML = that.html.widthInput.value});
 				this.html.palette[0].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'salmon'});
@@ -47,52 +67,56 @@ class Canva{
 				this.html.palette[20].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'green'});
 				this.html.palette[21].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'darkgreen'});
 				this.html.palette[22].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'deepskyblue'});
-				this.html.palette[23].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'royalblue'});
-				this.html.palette[24].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'blue'});
-				this.html.palette[25].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'mediumblue'});
-				this.html.palette[26].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'darkblue'});
-				this.html.palette[27].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'navy'});
-				this.html.palette[28].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'white'});
-				this.html.palette[29].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'lightgray'});
-				this.html.palette[30].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'silver'});
-				this.html.palette[31].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'darkgray'});
-				this.html.palette[32].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'gray'});
-				this.html.palette[33].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'dimgray'});
-				this.html.palette[34].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'black'});
+				this.html.palette[23].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'dodgerblue'});
+				this.html.palette[24].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'royalblue'});
+				this.html.palette[25].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'blue'});
+				this.html.palette[26].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'mediumblue'});
+				this.html.palette[27].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'darkblue'});
+				this.html.palette[28].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'navy'});
+				this.html.palette[29].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'white'});
+				this.html.palette[30].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'lightgray'});
+				this.html.palette[31].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'silver'});
+				this.html.palette[32].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'darkgray'});
+				this.html.palette[33].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'gray'});
+				this.html.palette[34].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'dimgray'});
+				this.html.palette[35].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'black'});
 			};
 			this.canva.canvas = new Object();
 				this.canva.canvas.buildCanvas = () => {
-					//console.log('build via canvas'); //
-					this.canva.canvas.tag.addEventListener(this.tool[that.drawMode].brush.cursor.down, this.tool[that.drawMode].begin);
+					console.debug('build via canvas'); //
+					this.canva.canvas.tag.addEventListener(this.tool.canvas.brush.cursor.down, this.tool.canvas.begin);
+					this.canva.canvas.tag.addEventListener(this.tool.canvas.brush.cursor.up, this.tool.canvas.end);
 				};
 				this.canva.canvas.tag = document.querySelector('canvas');
 				this.canva.canvas.context = this.canva.canvas.tag.getContext('2d');
-				this.canva.canvas.data = this.canva.canvas.tag.toDataURL('image/png');
+				this.canva.canvas.data = this.canva.canvas.tag.toDataURL(this.canva.mime);
 			this.canva.svg = new Object();
 				this.canva.svg.tag = document.querySelector('svg');
 				this.canva.svg.buildSVG = () => {
-					console.log('build via svg'); //
+					console.debug('build via svg'); //
+					this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.up, this.tool.svg.end);
 					this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.down, this.tool.svg.begin);
-				};	
-			this.canva.width = 1280;
-			this.canva.height = 720;
+				};
 		this.html = new Object(); // for saving tags, classes, html elements
 			this.html.palette = document.querySelectorAll('.color'); //flex elements div
-			this.html.canvaParentBlock = document.querySelector('#blockDraw'); //div
+			this.html.canvaParentBlock = document.querySelector('#canva-block'); //div
 			this.html.size = document.querySelector('size'); //select
 			this.html.tool = document.querySelectorAll('tool'); //divs
-			this.html.code = document.querySelector('#code_svg'); //div with textarea
-			this.html.widthInput = document.querySelector('#width_input'); // input
-			this.html.widthVisibleValue = document.querySelector('#width_visible_value');
+			this.html.code = document.querySelector('#svg-code-block'); //div with textarea
+			this.html.widthInput = document.querySelector('#width-input'); // input
+			this.html.widthVisibleValue = document.querySelector('#width-visible-value');
+			this.html.methodInput = document.querySelector('#draw-method-bar');
+			this.html.saveMimeInput = document.querySelector('#saving-option-bar');
+			this.html.buttonSave = document.querySelector('#button-save');
+			this.html.buttonReset = document.querySelector('#button-reset');
+			this.html.buttonExport = document.querySelector('#button-export');
 			this.html.activeSVGElement = undefined;
 		this.tool = new Object();
 			this.tool.canvas = new Object();
 				this.tool.canvas.brush = new Brush();
 					this.tool.canvas.begin = (event) => {
-						//console.log('begin'); //
-						this.canva.canvas.tag.removeEventListener(this.tool.canvas.brush.cursor.down, this.tool.canvas.begin);
+						console.debug('begin'); //
 						this.canva.canvas.tag.addEventListener(this.tool.canvas.brush.cursor.move, this.tool.canvas.move);
-						this.canva.canvas.tag.addEventListener(this.tool.canvas.brush.cursor.up, this.tool.canvas.end);
 						this.canva.canvas.context.beginPath();
 						this.canva.canvas.context.lineWidth = this.tool.canvas.brush.width;
 						this.canva.canvas.context.strokeStyle = this.tool.canvas.brush.color;
@@ -101,19 +125,17 @@ class Canva{
 						this.canva.canvas.context.moveTo(this.tool.canvas.brush.cursor.x, this.tool.canvas.brush.cursor.y);
 					};
 					this.tool.canvas.move = (event) => {
-						//console.log('move'); //
+						console.debug('move'); //
 						let toX = event.pageX - this.canva.canvas.tag.offsetLeft;	
 						let toY = event.pageY - this.canva.canvas.tag.offsetTop;
 						this.canva.canvas.context.lineTo(toX, toY);
 						this.canva.canvas.context.stroke();
 					};
 					this.tool.canvas.end = (event) => {
-						//console.log('end'); //
-						this.canva.canvas.tag.removeEventListener(this.tool.canvas.brush.cursor.up, this.tool.canvas.end);
+						console.debug('end'); //
 						this.canva.canvas.tag.removeEventListener(this.tool.canvas.brush.cursor.move, this.tool.canvas.move);
-						this.canva.canvas.tag.addEventListener(this.tool.canvas.brush.cursor.down, this.tool.canvas.begin);
-						this.canva.journal.push(this.canva.canvas.data); // note past canva to journal
 						this.canva.canvas.data = this.canva.canvas.tag.toDataURL('image/png'); //data update
+						this.canva.journal.push(this.canva.canvas.data); // note past canva to journal
 					};
 				this.tool.canvas.shape = new Object();
 					this.tool.canvas.shape.round = function(){};
@@ -133,25 +155,17 @@ class Canva{
 					return result;
 				};
 				this.tool.svg.begin = (event) => {
-					this.canva.svg.tag.removeEventListener(this.tool.svg.brush.cursor.up, this.tool.svg.end);
 					this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.move, this.tool.svg.move);
-					this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.down, this.tool.svg.begin);
 					let activeID = this.tool.svg.generatorID();
 					this.canva.svg.tag.innerHTML += `<path id="${activeID}" fill-opacity="0.0" stroke="${this.tool.svg.brush.color}" stroke-width="${this.tool.svg.brush.width}"></path>`;
 					this.html.activeSVGElement = document.getElementById(activeID);
 					this.html.activeSVGElement.setAttribute('d', `M ${event.pageX - this.html.canvaParentBlock.offsetLeft} ${event.pageY - this.html.canvaParentBlock.offsetTop}`)
-					console.log("begin is completed!"); //
+					// console.log("begin is completed!"); //
 				};
 				this.tool.svg.move = (event) => {
 					this.html.code.value = this.canva.svg.tag.innerHTML;
-					//let fromX = Math.round(event.pageX - this.html.canvaParentBlock.offsetLeft);
-					//let fromY = Math.round(event.pageY - this.html.canvaParentBlock.offsetTop);
-					let toX = event.pageX - this.html.canvaParentBlock.offsetLeft;
-					let toY = event.pageY - this.html.canvaParentBlock.offsetTop; 
-					/*setTimeout(function(){
-						coursor.EndX = Math.round(event.pageX - picture.offsetLeft);
-						coursor.EndY = Math.round(event.pageY - picture.offsetTop); 
-					}, 0.1)*/
+					let toX = event.pageX - this.html.canvaParentBlock.offsetLeft - 17;
+					let toY = event.pageY - this.html.canvaParentBlock.offsetTop - 5; 
 					this.html.activeSVGElement.setAttribute('d', this.html.activeSVGElement.getAttribute('d') + ` L ${toX} ${toY}`)
 					
 					// don't in the 'move'
@@ -165,13 +179,11 @@ class Canva{
 						svg.innerHTML += action_list[action_list.length - 1];
 						action_list.pop(action_list[action_list.length - 1])
 					});*/
-					console.log("move is working!"); //
+					// console.log("move is working!"); //
 				};
 				this.tool.svg.end = (event) => {
-					this.canva.svg.tag.removeEventListener(this.tool.svg.brush.cursor.up, this.tool.svg.end);
-						this.canva.svg.tag.removeEventListener(this.tool.svg.brush.cursor.move, this.tool.svg.move);
-						this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.down, this.tool.svg.begin);
-					console.log("end is completed!"); //
+					this.canva.svg.tag.removeEventListener(this.tool.svg.brush.cursor.move, this.tool.svg.move);
+					// console.log("end is completed!"); //
 				};
 				this.tool.svg.shape = new Object();
 					this.tool.svg.shape.round = function(){};
@@ -181,7 +193,18 @@ class Canva{
 				this.tool.svg.undo = function(){};
 				this.tool.svg.redo = function(){};
 			this.tool.hand = function(){};
-		this.saving = function(){};
+		this.saving = function(){
+			switch(that.canva.mime){
+				case 'image/svg':
+					alert(that.html.code.innerHTML);
+					break;
+				default:
+					that.canva.mime = that.html.saveMimeInput.value;
+					let mime = that.canva.canvas.tag.toDataURL(that.canva.mime);
+					window.open(mime);
+					break;
+			};
+		};
 		// hanging events
 		this.canva.buildAll();
 		if(this.drawMode == 'canvas'){
@@ -200,30 +223,31 @@ class Canva{
 		this.html.palette[8].style.backgroundColor = 'yellow';
 		this.html.palette[9].style.backgroundColor = 'orange';
 		this.html.palette[10].style.backgroundColor = 'darkorange';
-		this.html.palette[11].style.backgroundColor = 'chocolate';
-		this.html.palette[12].style.backgroundColor = 'saddlebrown';
-		this.html.palette[13].style.backgroundColor = 'brown';
-		this.html.palette[14].style.backgroundColor = 'greenyellow';
-		this.html.palette[15].style.backgroundColor = 'lawngreen';
-		this.html.palette[16].style.backgroundColor = 'lime';
-		this.html.palette[17].style.backgroundColor = 'limegreen';
-		this.html.palette[18].style.backgroundColor = 'forestgreen';
-		this.html.palette[19].style.backgroundColor = 'green';
-		this.html.palette[20].style.backgroundColor = 'darkgreen';
-		this.html.palette[21].style.backgroundColor = 'deepskyblue';
-		this.html.palette[22].style.backgroundColor = 'dodgerblue';
-		this.html.palette[23].style.backgroundColor = 'royalblue';
-		this.html.palette[24].style.backgroundColor = 'blue';
-		this.html.palette[25].style.backgroundColor = 'mediumblue';
-		this.html.palette[26].style.backgroundColor = 'darkblue';
-		this.html.palette[27].style.backgroundColor = 'navy';
-		this.html.palette[28].style.backgroundColor = 'white';
-		this.html.palette[29].style.backgroundColor = 'lightgray';
-		this.html.palette[30].style.backgroundColor = 'silver';
-		this.html.palette[31].style.backgroundColor = 'darkgray';
-		this.html.palette[32].style.backgroundColor = 'gray';
-		this.html.palette[33].style.backgroundColor = 'dimgray';
-		this.html.palette[34].style.backgroundColor = 'black';
+		this.html.palette[11].style.backgroundColor = 'orangered';
+		this.html.palette[12].style.backgroundColor = 'chocolate';
+		this.html.palette[13].style.backgroundColor = 'saddlebrown';
+		this.html.palette[14].style.backgroundColor = 'brown';
+		this.html.palette[15].style.backgroundColor = 'greenyellow';
+		this.html.palette[16].style.backgroundColor = 'lawngreen';
+		this.html.palette[17].style.backgroundColor = 'lime';
+		this.html.palette[18].style.backgroundColor = 'limegreen';
+		this.html.palette[19].style.backgroundColor = 'forestgreen';
+		this.html.palette[20].style.backgroundColor = 'green';
+		this.html.palette[21].style.backgroundColor = 'darkgreen';
+		this.html.palette[22].style.backgroundColor = 'deepskyblue';
+		this.html.palette[23].style.backgroundColor = 'dodgerblue';
+		this.html.palette[24].style.backgroundColor = 'royalblue';
+		this.html.palette[25].style.backgroundColor = 'blue';
+		this.html.palette[26].style.backgroundColor = 'mediumblue';
+		this.html.palette[27].style.backgroundColor = 'darkblue';
+		this.html.palette[28].style.backgroundColor = 'navy';
+		this.html.palette[29].style.backgroundColor = 'white';
+		this.html.palette[30].style.backgroundColor = 'lightgray';
+		this.html.palette[31].style.backgroundColor = 'silver';
+		this.html.palette[32].style.backgroundColor = 'darkgray';
+		this.html.palette[33].style.backgroundColor = 'gray';
+		this.html.palette[34].style.backgroundColor = 'dimgray';
+		this.html.palette[35].style.backgroundColor = 'black';
 	}
 };
 let c = new Canva();

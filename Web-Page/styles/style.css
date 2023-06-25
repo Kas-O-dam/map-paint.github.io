@@ -1,7 +1,3 @@
-body{
-
-}
-
 menu{
 	display: flex;
 }
@@ -12,24 +8,40 @@ menu{
 	border-width: 2px;
 	border-color: dimgray;
 
-	display: inline-block;
-
-	width: 10px;
 	height: 10px;
-
-	margin: 0px;
 }
 
 .color:hover{
 	border-color: whitesmoke;
 }
 
-#code_svg{
+.settings-input{
+	border-radius: 0%;
+	border-style: solid;
+	border-width: 0px;
+	display: block;
+	padding: 2px;
+	width: 190px;
+	text-align: left;
+	color: white;
+	background-color: dimgray;
+}
+.settings-input:nth-child(2n){
+	background-color: gray;
+}
+#button-save:active, #button-reset:active, #button-export:active{
+	padding: 1px;
+	border-width: 1px;
+	border-color: white;
+}
+#svg-code-block{
 	height: 400px;
 	width: 200px;
 	color: lightskyblue;
+	border-width: 0px;
 	background-color: rgb(20, 20, 20);
 	text-align: left;
+	margin: -2.5px;
 }
 
 div{
@@ -41,23 +53,21 @@ div{
 .menu{
 	margin: 5px;
 }
-#iptd{
-	background-color: #404247;
-	float: right;
-	position: relative;
-	z-index: 5;
-	display: flex;
+
+#size:focus{
+	outline-style: ridge;
+	outline-width: 1px;
+	outline-color: white;
 }
+
 #container{
 	background-color: rgba(0, 0, 0, 0.0);
 	position: fixed;
 	right: 0;
 	z-index: 5;
 }
-#container div{
-	
-}
-#blockDraw{
+
+#canva-block{
 	background-color: rgba(0, 0, 0, 0.0);
 	width: 100%;
 	height: 500px;
@@ -78,12 +88,15 @@ svg{
 }
 .content{
 	display: none;
+	height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
-.icon_menu{
+.icon-menu{
 	margin-left: 5px;
 	border-radius: 5px;
 }
-.img_ic{
+.image-icon{
 	width: 24px;
 	height: 24px;
 	margin-bottom: -2.5px;
@@ -92,20 +105,17 @@ svg{
 .tool{
 	width: 24px;
 	height: 24px;
-
 	border-style: solid;
 	border-radius: 5px;
 	border-width: 2px;
 	border-color: dimgray;
-
 	display: inline-block;
-
 	margin: 0px;
 }
 .tool:hover{
 	border-color: whitesmoke;
 }
-.tool_icon{
+.tool-icon{
 	width: 23px;
 	width: 23px;
 }
