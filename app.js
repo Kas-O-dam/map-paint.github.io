@@ -15,12 +15,12 @@ Canva{
 	constructor(){
 		//great hierarchy
 		const that = this;
-		this.drawMode = 'canvas'; //canvas or svg
-		this.elseDrawMode = 'svg'
+		this.drawMode = 'svg'; //canvas or svg
+		this.elseDrawMode = 'canvas'
 		// canva is such main object in all Canva
 		this.canva = new Object(); // canva - object for saving data and functions about draw area
 			this.canva.width = '1280';
-			this.canva.height = '720';2
+			this.canva.height = '720';
 			this.canva.trash = new Array(); // array for 'redo'
 			this.canva.journal = new Array(); // array for 'undo'
 			this.canva.mime = 'image/png';
@@ -84,15 +84,24 @@ Canva{
 				this.html.palette[34].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'dimgray'});
 				this.html.palette[35].addEventListener('click', function(){that.tool[that.drawMode].brush.color = 'black'});
 			};
+			// BUILD FUNCTIONS //
 			this.canva.canvas = new Object();
 				this.canva.canvas.tag = document.querySelector('canvas');
 				this.canva.canvas.context = this.canva.canvas.tag.getContext('2d');
 				this.canva.canvas.data = this.canva.canvas.tag.toDataURL(this.canva.mime);
 				this.canva.canvas.buildCanvas = () => {
 					console.debug('build via canvas'); //
+					this.canva.journal = new Array();
+					this.canva.trash = new Array();
+					this.canva.svg.tag.setAttribute('height', '0px');
+					this.canva.svg.tag.setAttribute('width', '0px');
+					this.canva.canvas.tag.setAttribute('height', this.canva.height + 'px');
+					this.canva.canvas.tag.setAttribute('width', this.canva.width + 'px');
 					this.canva.journal.push(this.canva.canvas.context.getImageData(0, 0, this.canva.width, this.canva.height));
+					this.html.undo.removeEventListener('pointerdown', this.tool.svg.undo);
+					this.html.redo.removeEventListener('pointerdown', this.tool.svg.redo);
 					this.html.undo.addEventListener('pointerdown', this.tool.canvas.undo);
-					this.html.redo.addEventListener('pointerdown', this.tool.canvas.redo)
+					this.html.redo.addEventListener('pointerdown', this.tool.canvas.redo);
 					this.canva.canvas.tag.addEventListener(this.tool.canvas.brush.cursor.down, this.tool.canvas.begin);
 					this.canva.canvas.tag.addEventListener(this.tool.canvas.brush.cursor.up, this.tool.canvas.end);
 				};
@@ -100,9 +109,20 @@ Canva{
 				this.canva.svg.tag = document.querySelector('svg');
 				this.canva.svg.buildSVG = () => {
 					console.debug('build via svg'); //
+					this.canva.journal = new Array();
+					this.canva.trash = new Array();
+					this.canva.canvas.tag.setAttribute('height', '0px');
+					this.canva.canvas.tag.setAttribute('width', '0px');
+					this.canva.svg.tag.setAttribute('height', this.canva.height + 'px');
+					this.canva.svg.tag.setAttribute('width', this.canva.width + 'px');
+					this.html.undo.removeEventListener('pointerdown', this.tool.canvas.undo);
+					this.html.redo.removeEventListener('pointerdown', this.tool.canvas.redo);
+					this.html.undo.addEventListener('pointerdown', this.tool.svg.undo);
+					this.html.redo.addEventListener('pointerdown', this.tool.svg.redo);
 					this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.up, this.tool.svg.end);
 					this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.down, this.tool.svg.begin);
 				};
+			// BUILD FUNCTIONS END //
 		this.html = new Object(); // for saving tags, classes, html elements
 			this.html.palette = document.querySelectorAll('.color'); //flex elements div
 			this.html.canvaParentBlock = document.querySelector('#canva-block'); //div
@@ -172,43 +192,38 @@ Canva{
 					return result;
 				};
 				this.tool.svg.begin = (event) => {
+					console.log('begin'); //
 					this.canva.svg.tag.addEventListener(this.tool.svg.brush.cursor.move, this.tool.svg.move);
 					let activeID = this.tool.svg.generatorID();
 					this.canva.svg.tag.innerHTML += `<path id='${activeID}' fill-opacity='0.0' stroke='${this.tool.svg.brush.color}' stroke-width='${this.tool.svg.brush.width}'></path>`;
 					this.html.activeSVGElement = document.getElementById(activeID);
-					this.html.activeSVGElement.setAttribute('d', `M ${event.pageX - this.html.canvaParentBlock.offsetLeft} ${event.pageY - this.html.canvaParentBlock.offsetTop}`)
-					// console.log('begin is completed!'); //
+					this.html.activeSVGElement.setAttribute('d', `M ${event.pageX - this.html.canvaParentBlock.offsetLeft} ${event.pageY - this.html.canvaParentBlock.offsetTop}`);
 				};
 				this.tool.svg.move = (event) => {
 					this.html.code.value = this.canva.svg.tag.innerHTML;
 					let toX = event.pageX - this.html.canvaParentBlock.offsetLeft - 17;
 					let toY = event.pageY - this.html.canvaParentBlock.offsetTop - 5; 
 					this.html.activeSVGElement.setAttribute('d', this.html.activeSVGElement.getAttribute('d') + ` L ${toX} ${toY}`)
-					
-					// don't in the 'move'
-					/*tool[2].addEventListener('click', function(){
-						try{
-							action_list.push(svg.lastElementChild.outerHTML);
-							svg.removeChild(svg.lastElementChild);
-						}catch{};
-					});
-					tool[3].addEventListener('click', function(){
-						svg.innerHTML += action_list[action_list.length - 1];
-						action_list.pop(action_list[action_list.length - 1])
-					});*/
-					// console.log('move is working!'); //
+					console.log('move is working!'); //
 				};
 				this.tool.svg.end = (event) => {
 					this.canva.svg.tag.removeEventListener(this.tool.svg.brush.cursor.move, this.tool.svg.move);
-					// console.log('end is completed!'); //
+					console.log('end is completed!'); //
 				};
 				this.tool.svg.shape = new Object();
 					this.tool.svg.shape.round = function(){};
 					this.tool.svg.shape.rect = function(){};
 					this.tool.svg.shape.polygon = function(){};
 					// et cetera
-				this.tool.svg.undo = function(){};
-				this.tool.svg.redo = function(){};
+				this.tool.svg.undo = function(){
+					if(that.canva.svg.tag.lastElementChild != null){
+						that.canva.journal.push(that.canva.svg.tag.lastElementChild);
+						that.canva.svg.tag.lastElementChild.remove();
+					};
+				};
+				this.tool.svg.redo = function(){
+					if(that.canva.journal.length) that.canva.svg.tag.appendChild(that.canva.journal.pop());
+				};
 			this.tool.hand = function(){};
 		this.saving = function(){
 			switch(that.canva.mime){

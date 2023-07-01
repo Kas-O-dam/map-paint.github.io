@@ -1,0 +1,96 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, user-scalable=no')
+    title Map paint
+    link(rel='stylesheet' type='text/css' href='../styles/style.css')
+  body
+    menu
+    div#container
+      div.group
+        div.icon-menu
+          span.parenthese ⟨
+          img.image-icon(src='../images/settings.svg' alt=' ')
+        div.content
+          div
+            input#width-input(type='range' placeholder='width' name='paintWidth')
+            span#width-visible-value.menu ?
+          div#tool-hand.tool
+            img.tool-icon(src='../images/hand.svg' alt='g')
+          div#tool-brush.tool
+            img.tool-icon(src='../images/brush.svg' alt='g')
+          div#tool-undo.tool(title='undo')
+            img.tool-icon(src='../images/redo.svg' alt='g')
+          div#tool-redo.tool(title='redo')
+            img.tool-icon(src='../images/undo.svg' alt='g')
+          div
+          // for offset
+          input#size.settings-input(type='textarea' placeholder='1280*720' name='size')
+          select#saving-option-bar.settings-input
+            option(value='image/jpeg') JPEG
+            option(value='image/png') PNG
+            option(value='image/webp') WEBP
+            option(value='image/svg') SVG
+          select#draw-method-bar.settings-input
+            option(value='svg') SVG
+            option(selected='selected' value='canvas') Canvas
+          button#button-save.settings-input(type='submit') Save
+          button#button-reset.settings-input(type='reset') Reset
+          button#button-export.settings-input(type='submit') Export
+      div.group
+        div.icon-menu
+          span.parenthese ⟨
+          img.image-icon(src='../images/palette.svg' alt=' ')
+        div.content
+          div.color(title='salmon')
+          div.color(title='indianred')
+          div.color(title='red')
+          div.color(title='darkred')
+          div.color(title='lightyellow')
+          div.color(title='papayawhip')
+          div.color(title='moccasin')
+          div.color(title='peachpuff')
+          div.color(title='yellow')
+          div.color(title='orange')
+          div.color(title='darkorange')
+          div.color(title='orangered')
+          div.color(title='chocolate')
+          div.color(title='saddlebrown')
+          div.color(title='brown')
+          div.color(title='greenyellow')
+          div.color(title='lawngreen')
+          div.color(title='lime')
+          div.color(title='limegreen')
+          div.color(title='forestgreen')
+          div.color(title='green')
+          div.color(title='darkgreen')
+          div.color(title='deepskyblue')
+          div.color(title='dodgerblue')
+          div.color(title='royalblue')
+          div.color(title='blue')
+          div.color(title='mediumblue')
+          div.color(title='darkblue')
+          div.color(title='navy')
+          div.color(title='white')
+          div.color(title='lightgray')
+          div.color(title='silver')
+          div.color(title='darkgray')
+          div.color(title='gray')
+          div.color(title='dimgray')
+          div.color(title='black')
+      div.group
+        div.icon-menu
+          span.parenthese ⟨
+          img.image-icon(title='xml markup' src='../images/code.svg' alt=' ')
+        div.content
+          textarea#svg-code-block(wrap='hard')
+          style.
+            textarea{
+            outline: none;
+            }
+    div#canva-block
+      canvas(width='1280' height='720')
+      svg(xmlns='http://www.w3.org/2000/svg' width='0' height='0')
+    script(src='../switch.js')
+    script(src='../app.js')
