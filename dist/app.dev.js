@@ -270,11 +270,11 @@ var Canva = function Canva() {
 
   this.canva.canvas.resetTool = function (tool) {
     // switching canva to other tool and preparing there
-    _this.html.round.removeEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.shape.round.begin);
+    _this.html.round.removeEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.round.begin);
 
-    _this.html.rect.removeEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.shape.rect.begin);
+    _this.html.rect.removeEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.rect.begin);
 
-    _this.html.polygon.removeEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.shape.polygon.begin);
+    _this.html.polygon.removeEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.polygon.begin);
 
     _this.canva.canvas.tag.removeEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.begin);
 
@@ -290,25 +290,25 @@ var Canva = function Canva() {
         break;
 
       case 'rect':
-        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.down, _this.tool.canvas.shape.rect.begin);
+        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.down, _this.tool.canvas.rect.begin);
 
-        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.shape.rect.end);
+        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.rect.end);
 
         console.info('rect');
         break;
 
       case 'round':
-        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.down, _this.tool.canvas.shape.round.begin);
+        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.down, _this.tool.canvas.round.begin);
 
-        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.shape.round.end);
+        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.round.end);
 
         console.info('round');
         break;
 
       case 'polygon':
-        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.down, _this.tool.canvas.shape.polygon.begin);
+        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.down, _this.tool.canvas.polygon.begin);
 
-        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.shape.polygon.end);
+        _this.canva.canvas.tag.addEventListener(_this.tool.canvas.brush.cursor.up, _this.tool.canvas.polygon.end);
 
         console.info('polygon');
         break;
@@ -382,7 +382,7 @@ var Canva = function Canva() {
   this.html.buttonReset = document.querySelector('#button-reset');
   this.html.buttonExport = document.querySelector('#button-export');
   this.html.activeSVGElement = undefined;
-  this.html.rectSample = document.querySelector('#rect-sample'); //DOM OBJECTS END //
+  this.html.sampleCanva = document.querySelector('#sample-canva'); //DOM OBJECTS END //
 
   this.tool = new Object();
   this.tool.canvas = new Object();
@@ -425,37 +425,38 @@ var Canva = function Canva() {
 
   };
 
-  this.tool.canvas.shape = new Object();
+  this.tool.canvas.round = function () {};
 
-  this.tool.canvas.shape.round = function () {};
+  this.tool.canvas.rect = new Object();
+  this.tool.canvas.rect.canvasBegin = new Array(undefined, undefined);
+  this.tool.canvas.rect.sampleBegin = new Array(undefined, undefined);
+  this.tool.canvas.rect.coordinates = new Array(undefined, undefined, undefined, undefined);
 
-  this.tool.canvas.shape.rect = new Object();
-  this.tool.canvas.shape.rect.center = new Array(undefined, undefined);
+  this.tool.canvas.rect.begin = function (event) {
+    that.canva.canvas.tag.addEventListener(that.tool.canvas.brush.cursor.move, that.tool.canvas.rect.move);
+    that.tool.canvas.rect.canvasBegin = new Array(event.pageX - that.canva.canvas.tag.offsetLeft, event.pageY - that.canva.canvas.tag.offsetTop);
+    that.tool.canvas.rect.sampleBegin = new Array(event.pageX, event.pageY);
+    that.tool.canvas.rect.sampleElement = document.createElement('path');
+    that.tool.canvas.rect.coordinates = new Array(event.pageX, event.pageY, event.pageX, event.pageY); //a b c d
 
-  this.tool.canvas.shape.rect.begin = function (event) {
-    that.canva.canvas.tag.addEventListener(that.tool.canvas.brush.cursor.move, that.tool.canvas.shape.rect.move);
-    that.tool.canvas.shape.rect.center = new Array(event.pageX - that.canva.canvas.tag.offsetLeft, event.pageY - that.canva.canvas.tag.offsetTop);
-    that.html.rectSample.style.left = "".concat(event.pageX, "px");
-    that.html.rectSample.style.top = "".concat(event.pageY, "px");
-    that.html.canvaParentBlock.insertBefore(that.html.rectSample, that.canva.svg.tag);
+    that.tool.canvas.rect.sampleElement.setAttribute('d', "M ".concat(that.tool.canvas.rect.coordinates[0], " ").concat(that.tool.canvas.rect.coordinates[1], " L ").concat(that.tool.canvas.rect.coordinates[0], " ").concat(that.tool.canvas.rect.coordinates[3], " L ").concat(that.tool.canvas.rect.coordinates[2], " ").concat(that.tool.canvas.rect.coordinates[3], " L ").concat(that.tool.canvas.rect.coordinates[2], " ").concat(that.tool.canvas.rect.coordinates[1], " Z"));
+    that.html.sampleCanvas.lastElementChild = that.tool.canvas.rect.sampleElement; //let id = that.tool.svg.generatorID();
+    //that.tool.canvas.rect.sampleElement.setAttribute('id', id);
   };
 
-  this.tool.canvas.shape.rect.move = function (event) {
-    console.info(Math.abs(event.pageX - that.tool.canvas.shape.rect.center[0]) - 12, Math.abs(event.pageY - that.tool.canvas.shape.rect.center[1]) - 12); //
-
-    that.html.rectSample.style.width = "".concat(Math.abs(Math.abs(event.pageX - that.tool.canvas.shape.rect.center[0]) - 12), "px");
-    that.html.rectSample.style.height = "".concat(Math.abs(Math.abs(event.pageY - that.tool.canvas.shape.rect.center[1]) - 12), "px");
+  this.tool.canvas.rect.move = function (event) {
+    that.tool.canvas.rect.coordinates[2] = event.pageX;
+    that.tool.canvas.rect.coordinates[3] = event.pageY;
+    that.tool.canvas.rect.sampleElement.setAttribute('d', "M ".concat(that.tool.canvas.rect.coordinates[0], " ").concat(that.tool.canvas.rect.coordinates[1], " L ").concat(that.tool.canvas.rect.coordinates[0], " ").concat(that.tool.canvas.rect.coordinates[3], " L ").concat(that.tool.canvas.rect.coordinates[2], " ").concat(that.tool.canvas.rect.coordinates[3], " L ").concat(that.tool.canvas.rect.coordinates[2], " ").concat(that.tool.canvas.rect.coordinates[1], " Z"));
   };
 
-  this.tool.canvas.shape.rect.end = function (event) {
-    that.canva.canvas.context.strokeRect(that.tool.canvas.shape.rect.center[0], that.tool.canvas.shape.rect.center[1], Math.abs(that.tool.canvas.shape.rect.center[0] + (event.pageX - that.canva.canvas.tag.offsetLeft)), Math.abs(that.tool.canvas.shape.rect.center[1] + (event.pageY - that.canva.canvas.tag.offsetTop)));
-    that.html.rectSample.style.top = '-1000px'; // Sometimes, I can be a big genius
-
-    that.html.rectSample.style.left = '-1000px';
-    that.canva.canvas.tag.removeEventListener(that.tool.canvas.brush.cursor.move, that.tool.canvas.shape.rect.move);
+  this.tool.canvas.rect.end = function (event) {
+    that.canva.canvas.context.strokeRect(that.tool.canvas.rect.coordinates[0], that.tool.canvas.rect.coordinates[1], that.tool.canvas.rect.coordinates[2], that.tool.canvas.rect.coordinates[3]);
+    document.removeChild(that.tool.canvas.rect.sampleElement);
+    that.canva.canvas.tag.removeEventListener(that.tool.canvas.brush.cursor.move, that.tool.canvas.rect.move);
   };
 
-  this.tool.canvas.shape.polygon = function () {}; // et cetera
+  this.tool.canvas.polygon = function () {}; // et cetera
 
 
   this.tool.canvas.undo = function () {
@@ -519,13 +520,13 @@ var Canva = function Canva() {
     console.log('end is completed!'); //
   };
 
-  this.tool.svg.shape = new Object();
+  this.tool.svg = new Object();
 
-  this.tool.svg.shape.round = function () {};
+  this.tool.svg.round = function () {};
 
-  this.tool.svg.shape.rect = function () {};
+  this.tool.svg.rect = function () {};
 
-  this.tool.svg.shape.polygon = function () {}; // et cetera
+  this.tool.svg.polygon = function () {}; // et cetera
 
 
   this.tool.svg.undo = function () {
