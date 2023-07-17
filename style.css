@@ -9,14 +9,16 @@ div {
   color: whitesmoke;
 }
 
-canvas {
+#canvas-main {
   border-style: solid;
-  background-image: url(images/opacity-background.png);
+  background-color: rgba(0, 0, 0, 0.0);
+  position: absolute;
 }
 
-svg {
+#svg-main {
   border-style: solid;
-  background-image: url(images/opacity-background.png);
+  background-color: rgba(0, 0, 0, 0.0);
+  position: absolute;
 }
 
 #button-save:active, #button-reset:active, #button-export:active {
@@ -54,6 +56,9 @@ svg {
   height: 500px;
   touch-action: none;
   margin: 50px;
+}
+#sample-canva{
+  background-image: url(images/opacity-background.png);
 }
 
 .color {
