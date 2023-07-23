@@ -206,42 +206,34 @@ Canva{
 					};
 				this.tool.canvas.round = function(){};
 				this.tool.canvas.rect = new Object();
-					this.tool.canvas.rect.canvasBegin = new Array(undefined, undefined);
-					this.tool.canvas.rect.sampleBegin = new Array(undefined, undefined);
 					this.tool.canvas.rect.coordinates = new Array(undefined, undefined, undefined, undefined);
 					this.tool.canvas.rect.begin = function(event){
 						that.canva.canvas.tag.addEventListener(that.tool.canvas.brush.cursor.move, that.tool.canvas.rect.move);
-						that.tool.canvas.rect.canvasBegin = new Array(event.pageX - that.canva.canvas.tag.offsetLeft, event.pageY - that.canva.canvas.tag.offsetTop);
-						that.tool.canvas.rect.sampleBegin = new Array(event.pageX, event.pageY);
 						that.tool.canvas.rect.sampleElement = document.createElement('path');
 						that.tool.canvas.rect.coordinates = new Array(event.pageX - that.canva.canvas.tag.offsetLeft, event.pageY - that.canva.canvas.tag.offsetTop, undefined, undefined); //a b c d
 						that.tool.canvas.rect.sampleElement.setAttribute('d', `M ${that.tool.canvas.rect.coordinates[0]} ${that.tool.canvas.rect.coordinates[1]} L ${that.tool.canvas.rect.coordinates[0]} ${that.tool.canvas.rect.coordinates[3]} L ${that.tool.canvas.rect.coordinates[2]} ${that.tool.canvas.rect.coordinates[3]} L ${that.tool.canvas.rect.coordinates[2]} ${that.tool.canvas.rect.coordinates[1]} Z`);
 						that.html.sampleCanva.appendChild(that.tool.canvas.rect.sampleElement);
-						that.tool.canvas.rect.sampleElement.setAttribute('width', that.tool.canvas.brush.width);
-						that.tool.canvas.rect.sampleElement.setAttribute('stroke', that.tool.canvas.brush.color);
+						that.tool.canvas.rect.sampleElement.setAttribute('width', '5px');
+						that.tool.canvas.rect.sampleElement.setAttribute('stroke', 'deepskyblue');
 						//let id = that.tool.svg.generatorID();
 						//that.tool.canvas.rect.sampleElement.setAttribute('id', id);
 					};
 					this.tool.canvas.rect.move = function(event){
 						that.tool.canvas.rect.coordinates[2] = event.pageX - that.canva.canvas.tag.offsetLeft;
 						that.tool.canvas.rect.coordinates[3] = event.pageY - that.canva.canvas.tag.offsetTop;
+						that.tool.canvas.rect.sampleElement.removeAttribute('d');
 						that.tool.canvas.rect.sampleElement.setAttribute('d', `M ${that.tool.canvas.rect.coordinates[0]} ${that.tool.canvas.rect.coordinates[1]} L ${that.tool.canvas.rect.coordinates[0]} ${that.tool.canvas.rect.coordinates[3]} L ${that.tool.canvas.rect.coordinates[2]} ${that.tool.canvas.rect.coordinates[3]} L ${that.tool.canvas.rect.coordinates[2]} ${that.tool.canvas.rect.coordinates[1]} Z`);
-						console.info(that.tool.canvas.rect.coordinates);
+						that.html.sampleCanva.removeChild(that.html.sampleCanva.lastChild);
+						that.html.sampleCanva.appendChild(that.tool.canvas.rect.sampleElement);
 					};
 					this.tool.canvas.rect.end = function(event){
-						// if(that.tool.canvas.rect.coordinates[0] < that.tool.canvas.rect.coordinates[2]){
-						// 	that.tool.canvas.rect.coordinates[0], that.tool.canvas.rect.coordinates[2] = that.tool.canvas.rect.coordinates[2], that.tool.canvas.rect.coordinates[0]
-						// }
-						// if(that.tool.canvas.rect.coordinates[1] < that.tool.canvas.rect.coordinates[3]){
-						// 	that.tool.canvas.rect.coordinates[1], that.tool.canvas.rect.coordinates[3] = that.tool.canvas.rect.coordinates[3], that.tool.canvas.rect.coordinates[1]
-						// }
 						that.canva.canvas.context.strokeRect(
 							that.tool.canvas.rect.coordinates[0],
 							that.tool.canvas.rect.coordinates[1],
-							that.tool.canvas.rect.coordinates[0] - that.tool.canvas.rect.coordinates[2],
-							that.tool.canvas.rect.coordinates[1] - that.tool.canvas.rect.coordinates[3],
+							that.tool.canvas.rect.coordinates[2] - that.tool.canvas.rect.coordinates[0],
+							that.tool.canvas.rect.coordinates[3] - that.tool.canvas.rect.coordinates[1],
 						);
-						that.html.sampleCanva.removeChild(that.tool.canvas.rect.sampleElement)
+						that.html.sampleCanva.removeChild(that.html.sampleCanva.lastChild)
 						that.canva.canvas.tag.removeEventListener(that.tool.canvas.brush.cursor.move, that.tool.canvas.rect.move);
 					};
 				this.tool.canvas.polygon = function(){};
